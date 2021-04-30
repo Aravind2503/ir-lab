@@ -168,60 +168,60 @@ df.to_csv(r'Inverted.csv')
 
 
 
-#Probabilistic Model
+# #Probabilistic Model
 
-inv_file = r'Inverted.csv'
+# inv_file = r'Inverted.csv'
 
-def get_relevance(n,nw):
-  return (n-nw+0.5)/(nw+0.5)
+# def get_relevance(n,nw):
+#   return (n-nw+0.5)/(nw+0.5)
   
-def get_prob_matrix(n, df, toks):
-  prob_matrix = {}
+# def get_prob_matrix(n, df, toks):
+#   prob_matrix = {}
 
-  for i in toks:
-    nw = df.loc[i, 'Occurences'].count(')')
-    prob_matrix[i] = [nw, get_relevance(n,nw)]
-  return prob_matrix
+#   for i in toks:
+#     nw = df.loc[i, 'Occurences'].count(')')
+#     prob_matrix[i] = [nw, get_relevance(n,nw)]
+#   return prob_matrix
 
 
-def get_query_tokens(query):
-  tokens = preprocess(query.lower())
-  tokens = sw_remove(tokens)
-  tokens = stem_tokens(tokens)
-  return tokens
+# def get_query_tokens(query):
+#   tokens = preprocess(query.lower())
+#   tokens = sw_remove(tokens)
+#   tokens = stem_tokens(tokens)
+#   return tokens
   
-def get_cond_probability(qtok, inv_file):
-  prob_matrix = {}
+# def get_cond_probability(qtok, inv_file):
+#   prob_matrix = {}
 
-  df = pd.read_csv(inv_file)
-  toks = list(df['Tokens'])
+#   df = pd.read_csv(inv_file)
+#   toks = list(df['Tokens'])
 
-  df.set_index('Tokens',inplace=True)
+#   df.set_index('Tokens',inplace=True)
 
-  word_matrix = get_prob_matrix(len(xfiles), df, toks)
+#   word_matrix = get_prob_matrix(len(xfiles), df, toks)
 
-  for i in xfiles:
-    flag = False
-    val = 1
-    prob_matrix[i] = 0
+#   for i in xfiles:
+#     flag = False
+#     val = 1
+#     prob_matrix[i] = 0
 
-    for j in qtok:
-      if j in toks:
-        if i in df.loc[j,'Occurences']:
-          flag = True
-          val *= word_matrix[j][1]
-    prob_matrix[i] = val if flag else 0
+#     for j in qtok:
+#       if j in toks:
+#         if i in df.loc[j,'Occurences']:
+#           flag = True
+#           val *= word_matrix[j][1]
+#     prob_matrix[i] = val if flag else 0
  
-  return prob_matrix  
+#   return prob_matrix  
   
-print("-:"+"Probabilistic Model :- \n -: Compute Similarity "+":-")
+# print("-:"+"Probabilistic Model :- \n -: Compute Similarity "+":-")
 
-print("Query : ")
-vect = get_cond_probability(get_query_tokens(input()),inv_file)
+# print("Query : ")
+# vect = get_cond_probability(get_query_tokens(input()),inv_file)
 
-vect = {k: "{0:.5f}".format(v) for k, v in sorted(vect.items(), key=lambda item: item[1], reverse=True)}
+# vect = {k: "{0:.5f}".format(v) for k, v in sorted(vect.items(), key=lambda item: item[1], reverse=True)}
 
-print(pd.DataFrame(vect.items(),columns=['File','Relevance'])) 
+# print(pd.DataFrame(vect.items(),columns=['File','Relevance'])) 
   
   
   

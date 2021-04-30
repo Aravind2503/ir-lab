@@ -36,6 +36,8 @@ def extract_text(fname):
     myf = open(fname,"rb")
     text = myf.read().decode(errors='replace')
     return text
+
+
 #doing analysis
 def uniqratio(token):
 	return str(len(set(token))/len(token))
@@ -51,11 +53,14 @@ def preprocess(sentence):
  tokenizer = RegexpTokenizer(r'\w+')
  tokens = tokenizer.tokenize(sentence)
  return nltk.word_tokenize(" ".join(tokens))
+
 # Stopwords removal, return list
 def sw_remove(tokens):
   stop = stopwords.words('english')
   new_tokens = [i for i in tokens if i not in stop]
   return new_tokens
+
+
 #Stemming of tokens, return list
 def stem_tokens(new_tokens):
     ps = PorterStemmer()
