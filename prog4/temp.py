@@ -14,6 +14,44 @@ import os,math,re
 # %matplotlib inline
 
 
+# Helper functions for inv_ind()
+class CreateInvDict:
+    def __init__(self):
+        self.myd = {}
+    def checkf(self, x, i):
+        if i not in self.myd.keys():
+            self.myd[i] = [x]
+        else:
+            self.myd[i].append(x)
+
+def freq_list(str,word):
+    count = str.count(word)
+    mid = -1
+    freq = []
+    for i in range(count):
+        prev = str[mid+1:].index(word)
+        mid += (prev+1)
+        freq.append(mid)
+    return freq
+
+def freq_count(text, word):
+    return text.count(word)
+
+#Inverted index, return dictionary
+def inv_ind(stemmed_docs,doc_sizes,n):
+    unq_tok = set(stemmed_docs)
+    inv_table = CreateInvDict()
+    for i in unq_tok:
+        start = 0
+        for j in range(n):
+            end = doc_sizes[j]
+            temp = stemmed_docs[start:(start+end)]
+            if i in temp:
+                x = (xfiles[j],freq_count(temp,i))
+                inv_table.checkf(x,i)
+            start += end
+    return inv_table.myd
+
 
 
 # nltk.download('stopwords')

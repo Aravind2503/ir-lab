@@ -9,6 +9,7 @@ import codecs
 import json
 import os
 import math
+import pandas as pd
 
 
 #query_vector
@@ -118,10 +119,16 @@ for i in tf_idf:
         val = (dot_product(q_vec,tf_idf[i]))/(magnitude(q_vec)*magnitude(tf_idf[i]))
     else:
         val = 0.0
-    result_set.append((val,i))
+    result_set.append((i,val))
 
 #sorting the result_set 
-print(sorted(result_set,key = lambda tup:tup[0],reverse=True))
+# print(sorted(result_set,key = lambda tup:tup[1],reverse=True))
+
+l = (sorted(result_set,key = lambda tup:tup[1],reverse=True))
+
+df = pd.DataFrame(l,columns=['File','Similarity'])
+print(df)
+
 
 
 
